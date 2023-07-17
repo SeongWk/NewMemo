@@ -4,6 +4,8 @@ ToyProject
 
 memo만들기
 
-language:kotlin 
-view: recyclerview, fragment
-data: sqlite, sharedPreferences
+Language:kotlin <br>
+
+View: recyclerview, fragment<br>
+
+Data: sqlite, sharedPreferences<br>
