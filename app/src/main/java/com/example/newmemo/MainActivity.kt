@@ -5,62 +5,60 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.example.newmemo.databinding.ActivityMainBinding
-import java.io.FileReader
 
 class MainActivity : AppCompatActivity() {
-    lateinit var activityMainBinding: ActivityMainBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
-        setContentView(activityMainBinding.root)
+        setContentView(R.layout.activity_main)
 
-        activityMainBinding.run {
-            replaceFragment(FragmentName.FRAGMENT_MAIN,false,false,null)
-        }
-
+        //메인 프래그먼트로 교체
+        replaceFragment(FragmentName.FRAGMENT_MAIN, false, false)
     }
-    //fragment 교체하는 메서드
-    fun replaceFragment(name:FragmentName,addTobackStack:Boolean,animate:Boolean,arguments :Bundle? = null){
-        //프래그먼트 매니저 설정
-        var fragmentReplaced = supportFragmentManager.beginTransaction()
 
-        var newFragment : Fragment? = null
-        //프래그먼트 분가처리
+   // fragment 교체 메서드
+    fun replaceFragment(name: FragmentName, addToBackStack:Boolean, animate:Boolean){
+        // Fragment manager 교체 설정
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        // 새로운 Fragment
+        var newFragment:Fragment? = null
+
+        // 분기 처리
         when(name){
-            FragmentName.FRAGMENT_MAIN->{
+            FragmentName.FRAGMENT_MAIN -> {
+                // Fragment 객체를 생성한다.
                 newFragment = MainFragment()
             }
-            FragmentName.FRAGMENT_CATEGORY->{}
-            FragmentName.FRAGMENT_MEMO->{}
-            FragmentName.FRAGMENT_DETAIL_MEMO->{}
+            else->{}
         }
-        if(newFragment!=null){
-            //프래그먼트 교체
-            fragmentReplaced.replace(R.id.main_container,newFragment)
-            //프래그먼트 애니메이션 설정
-            if(animate == true){
-                fragmentReplaced.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+
+        if(newFragment != null) {
+            // Fragment를 교채한다.
+            fragmentTransaction.replace(R.id.main_container, newFragment)
+
+            if (animate == true) {
+                // 애니메이션을 설정한다.
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             }
-            // 프래그먼트 addtobackstack 설정
-            if(addTobackStack == true){
-                fragmentReplaced.addToBackStack(name.names)
+
+            if (addToBackStack == true) {
+                // Fragment를 Backstack에 넣어 이전으로 돌아가는 기능이 동작할 수 있도록 한다.
+                fragmentTransaction.addToBackStack(name.str)
             }
-            //프래그먼트 커밋
-            fragmentReplaced.commit()
+
+            // 교체 명령이 동작하도록 한다.
+            fragmentTransaction.commit()
         }
     }
 
-    //프래그먼트 제거
-    fun deleteFragment(name: FragmentName){
-       supportFragmentManager.popBackStack(name.names,FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    // Fragment를 BackStack에서 제거한다.
+    fun removeFragment(name: FragmentName){
+        supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
-
 }
 
-enum class FragmentName(val names:String) {
-    FRAGMENT_MAIN("mainFragment"),
-    FRAGMENT_CATEGORY("categoryFragment"),
-    FRAGMENT_MEMO("memoFragment"),
-    FRAGMENT_DETAIL_MEMO("detailFragment")
+// Fragment 들을 구분하기 위한 값
+enum class FragmentName(val str:String){
+    FRAGMENT_MAIN("MainFragment"),
 }
