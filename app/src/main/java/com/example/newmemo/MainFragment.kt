@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 import com.example.newmemo.databinding.FragmentMainBinding
+import com.example.newmemo.databinding.RecyclerviewerBinding
 
 
 class MainFragment : Fragment() {
@@ -27,6 +29,23 @@ class MainFragment : Fragment() {
         fragmentMainBinding = FragmentMainBinding.inflate(layoutInflater)
 
         return fragmentMainBinding.root
+    }
+    inner class recyclerclass:RecyclerView.Adapter<recyclerclass.viewholderclass>(){
+        inner class viewholderclass(recyclerviewerBinding: RecyclerviewerBinding):RecyclerView.ViewHolder(recyclerviewerBinding.root){
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): viewholderclass {
+            TODO("Not yet implemented")
+        }
+
+        override fun getItemCount(): Int {
+            TODO("Not yet implemented")
+        }
+
+        override fun onBindViewHolder(holder: viewholderclass, position: Int) {
+            TODO("Not yet implemented")
+        }
     }
 
 }
